@@ -8,10 +8,10 @@ using namespace std;
 using Eigen::MatrixXd;
 
 #define INPUT_SIZE 4
-#define HIDDEN_LAYER_SIZE 4
 #define OUTPUT_SIZE 1
 
-#define NUMBER_OF_LAYERS 3
+vector<int> LAYER_SIZES = {INPUT_SIZE, 4, 2, OUTPUT_SIZE};
+#define NUMBER_OF_LAYERS LAYER_SIZES.size()
 
 int main(int argc, char* argv[]) {
     srand(time(NULL));
@@ -31,25 +31,31 @@ int main(int argc, char* argv[]) {
     layers[0] = input_layer;
 
     // Initialize the weights
-    Eigen::MatrixXd weights_input(INPUT_SIZE, HIDDEN_LAYER_SIZE);
+
+    // Weights for the input layer
+    Eigen::MatrixXd weights_input(INPUT_SIZE, LAYER_SIZES[1]);
     for (int row = 0; row < weights_input.rows(); row++)
         for (int col = 0; col < weights_input.cols(); col++)
             weights_input(row, col) = ((double)rand() / (RAND_MAX)) * 2 - 1;
     weights[0] = weights_input;
 
+    // Weights for the hidden layers
     for (int i = 1; i < NUMBER_OF_LAYERS - 2; i++) {
-        Eigen::MatrixXd weights_layer(HIDDEN_LAYER_SIZE, HIDDEN_LAYER_SIZE);
+        Eigen::MatrixXd weights_layer(LAYER_SIZES[i], LAYER_SIZES[i + 1]);
         for (int row = 0; row < weights_layer.rows(); row++)
             for (int col = 0; col < weights_layer.cols(); col++)
                 weights_layer(row, col) = ((double)rand() / (RAND_MAX)) * 2 - 1;
         weights[i] = weights_layer;
     }
 
-    Eigen::MatrixXd weights_last(HIDDEN_LAYER_SIZE, OUTPUT_SIZE);
+    Eigen::MatrixXd weights_last(LAYER_SIZES[NUMBER_OF_LAYERS - 2], OUTPUT_SIZE);
     for (int row = 0; row < weights_last.rows(); row++)
         for (int col = 0; col < weights_last.cols(); col++)
             weights_last(row, col) = ((double)rand() / (RAND_MAX)) * 2 - 1;
     weights[NUMBER_OF_LAYERS - 2] = weights_last;
+
+    cout << "Input Layer: \n"
+         << layers[0] << "\n\n";
 
     for (auto m : weights) {
         cout << m << "\n\n\n";

@@ -33,12 +33,12 @@ void Util::FeedForward(vector<Eigen::MatrixXd> &layers, vector<Eigen::MatrixXd> 
 /**
  * Initializes the network with random weights and the first test case in the inputs.
  **/
-void Util::InitializeNetwork(Data &input_data, vector<Eigen::MatrixXd> &layers, vector<Eigen::MatrixXd> &weights, const vector<int> &LAYER_SIZES) {
-    // Initialize the first layer
+void Util::InitializeNetwork(Data &input_data, vector<Eigen::MatrixXd> &layers, vector<Eigen::MatrixXd> &weights, vector<Eigen::MatrixXd> &biases, const vector<int> &LAYER_SIZES) {
     int NUMBER_OF_LAYERS = LAYER_SIZES.size();
     int INPUT_SIZE = LAYER_SIZES[0];
     int OUTPUT_SIZE = LAYER_SIZES[NUMBER_OF_LAYERS - 1];
 
+    // Initialize the first layer
     Eigen::MatrixXd input_layer(1, INPUT_SIZE);
     for (int i = 1; i < input_data.table[0].size(); i++)
         input_layer(0, i - 1) = input_data.table[3][i];
@@ -67,4 +67,12 @@ void Util::InitializeNetwork(Data &input_data, vector<Eigen::MatrixXd> &layers, 
         for (int col = 0; col < weights_last.cols(); col++)
             weights_last(row, col) = ((double)rand() / (RAND_MAX)) * 2 - 1;
     weights[NUMBER_OF_LAYERS - 2] = weights_last;
+
+    // Initialize the biases
+    for (int i = 0; i < biases.size(); i++) {
+        Eigen::MatrixXd m(1, LAYER_SIZES[i + 1]);
+        for (int col = 0; col < m.cols(); col++)
+            m(0, col) = ((double)rand() / (RAND_MAX)) * 2 - 1;
+        biases[i] = m;
+    }
 }

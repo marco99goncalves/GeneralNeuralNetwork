@@ -20,8 +20,9 @@ int main(int argc, char* argv[]) {
 
     vector<Eigen::MatrixXd> layers(NUMBER_OF_LAYERS);
     vector<Eigen::MatrixXd> weights(NUMBER_OF_LAYERS - 1);
+    vector<Eigen::MatrixXd> biases(NUMBER_OF_LAYERS - 1);
 
-    Util::InitializeNetwork(input_data, layers, weights, LAYER_SIZES);
+    Util::InitializeNetwork(input_data, layers, weights, biases, LAYER_SIZES);
 
     cout << "========\n"
          << "Layers\n"
@@ -52,4 +53,11 @@ int main(int argc, char* argv[]) {
 
     for (auto m : weights)
         cout << m << "\n\n\n";
+
+    cout << "========\n"
+         << "Biases\n"
+         << "========\n\n\n";
+
+    for (auto b : biases)
+        cout << b << "\n\n\n";
 }

@@ -16,15 +16,23 @@ void Util::ReadData(Data &data, string filename) {
     file.close();
 }
 
-void Util::Sigmoid(Eigen::MatrixXd &matrix) {
+Eigen::MatrixXd Util::Sigmoid(Eigen::MatrixXd &matrix) {
     for (int col = 0; col < matrix.cols(); col++) {
         matrix(0, col) = 1 / (1 + exp(-(matrix(0, col))));
+    }
+    return matrix;
+}
+
+void Util::FeedForward(vector<Eigen::MatrixXd> &layers, vector<Eigen::MatrixXd> &weights, const vector<int> &LAYER_SIZES) {
+    for (int i = 1; i < LAYER_SIZES.size(); i++) {
+        Eigen::MatrixXd matrix = layers[i - 1] * weights[i - 1];
+        layers[i] = Sigmoid(matrix);
     }
 }
 
 /**
  * Initializes the network with random weights and the first test case in the inputs.
-**/
+ **/
 void Util::InitializeNetwork(Data &input_data, vector<Eigen::MatrixXd> &layers, vector<Eigen::MatrixXd> &weights, const vector<int> &LAYER_SIZES) {
     // Initialize the first layer
     int NUMBER_OF_LAYERS = LAYER_SIZES.size();

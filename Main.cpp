@@ -23,10 +23,33 @@ int main(int argc, char* argv[]) {
 
     Util::InitializeNetwork(input_data, layers, weights, LAYER_SIZES);
 
-    cout << "Input Layer: \n"
-         << layers[0] << "\n\n";
+    cout << "========\n"
+         << "Layers\n"
+         << "========\n\n\n";
 
-    for (auto m : weights) {
+    for (auto l : layers)
+        cout << l << "\n\n\n";
+
+    cout << "========\n"
+         << "Weights\n"
+         << "========\n\n\n";
+
+    for (auto m : weights)
         cout << m << "\n\n\n";
-    }
+
+    Util::FeedForward(layers, weights, LAYER_SIZES);
+
+    cout << "========\n"
+         << "Layers\n"
+         << "========\n\n\n";
+
+    for (auto l : layers)
+        cout << l << "\n\n\n";
+
+    cout << "========\n"
+         << "Weights\n"
+         << "========\n\n\n";
+
+    for (auto m : weights)
+        cout << m << "\n\n\n";
 }

@@ -6,6 +6,7 @@ using namespace std;
 
 namespace Util {
 void ReadData(Data &data, string filename);
-void Sigmoid(Eigen::MatrixXd &matrix);
+Eigen::MatrixXd Sigmoid(Eigen::MatrixXd &matrix);
 void InitializeNetwork(Data &input_data, vector<Eigen::MatrixXd> &layers, vector<Eigen::MatrixXd> &weights, const vector<int> &LAYER_SIZES);
+void FeedForward(vector<Eigen::MatrixXd> &layers, vector<Eigen::MatrixXd> &weights, const vector<int> &LAYER_SIZES);
 };
